@@ -56,6 +56,8 @@ enum {
   PROP_METRIC
 };
 
+GType GTK_TYPE_METRIC_TYPE = 0;
+
 typedef struct _GtkRulerPrivate GtkRulerPrivate;
 
 struct _GtkRulerPrivate
