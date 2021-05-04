@@ -31,7 +31,6 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <gtk/gtkwidget.h>
-#include "gtkenums.h"
 
 
 #ifdef __cplusplus
@@ -39,11 +38,13 @@ extern "C" {
 #endif /* __cplusplus */
 
 
-#define GTK_TYPE_RULER            (gtk_ruler_get_type ())
-#define GTK_RULER(obj)            (GTK_CHECK_CAST ((obj), GTK_TYPE_RULER, GtkRuler))
-#define GTK_RULER_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_RULER, GtkRulerClass))
-#define GTK_IS_RULER(obj)         (GTK_CHECK_TYPE ((obj), GTK_TYPE_RULER))
-#define GTK_IS_RULER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_RULER))
+#define GTK_TYPE_RULER              (gtk_ruler_get_type ())
+#define GTK_RULER(obj)              (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_RULER, GtkRuler))
+#define GTK_RULER_CLASS(klass)      (GTK_CHECK_CLASS_CAST ((klass), GTK_TYPE_RULER, GtkRulerClass))
+#define GTK_IS_RULER(obj)           (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTK_TYPE_RULER))
+#define GTK_IS_RULER_CLASS(klass)   (GTK_CHECK_CLASS_TYPE ((klass), GTK_TYPE_RULER))
+#define GTK_RULER_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_RULER, GtkRulerClass))
+
 
 typedef struct _GtkRuler        GtkRuler;
 typedef struct _GtkRulerClass   GtkRulerClass;
@@ -102,11 +103,12 @@ struct _GtkRulerMetric
 GType gtk_ruler_get_type   (void);
 void    gtk_ruler_set_metric (GtkRuler       *ruler,
 			      GtkMetricType   metric);
+GtkMetricType gtk_ruler_get_metric (GtkRuler *ruler);
 void    gtk_ruler_set_range  (GtkRuler       *ruler,
-			      gfloat          lower,
-			      gfloat          upper,
-			      gfloat          position,
-			      gfloat          max_size);
+                              gdouble          lower,
+                              gdouble          upper,
+                              gdouble          position,
+                              gdouble          max_size);
 void    gtk_ruler_draw_ticks (GtkRuler       *ruler);
 void    gtk_ruler_draw_pos   (GtkRuler       *ruler);
 
