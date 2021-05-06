@@ -27,8 +27,6 @@
 /*
  * Ported to GTK3 + Cairo by Jelle Bootsma for the Scroom large image viewer
  * See SCROOM at https://github.com/kees-jan/scroom
- * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 //#include "config.h"
 
