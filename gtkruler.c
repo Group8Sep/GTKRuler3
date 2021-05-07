@@ -108,7 +108,6 @@ G_DEFINE_TYPE_WITH_CODE (GtkRuler, gtk_ruler, GTK_TYPE_WIDGET,
                                                 NULL))
 
 
-
 static void
 gtk_ruler_class_init (GtkRulerClass *class)
 {
