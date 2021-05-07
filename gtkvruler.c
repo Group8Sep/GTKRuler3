@@ -172,20 +172,16 @@ gtk_vruler_draw_ticks (GtkRuler *ruler)
   height = gtk_widget_get_allocated_width(widget) - ythickness * 2;
 
    gtk_paint_box (gtk_widget_get_style(widget),
-                  ruler->backing_store,
+                  (cairo_t *) ruler->backing_store,
                   GTK_STATE_NORMAL,
                   GTK_SHADOW_OUT,
-                  NULL,
                   widget,
                   "vruler",
                   0, 0,
-		  widget->allocation.width, widget->allocation.height);
-
-   gdk_draw_line (ruler->backing_store, gc,
-		 height + xthickness,
-		 ythickness,
-		 height + xthickness,
-		 widget->allocation.height - ythickness);
+                  gtk_widget_get_allocated_width(widget), gtk_widget_get_allocated_height(widget));
+    cairo_move_to (gc, height + xthickness, ythickness);
+    cairo_line_to (gc, height + xthickness, gtk_widget_get_allocated_height(widget)- ythickness);
+    cairo_stroke (gc);
 
   upper = ruler->upper / ruler->metric->pixels_per_unit;
   lower = ruler->lower / ruler->metric->pixels_per_unit;
