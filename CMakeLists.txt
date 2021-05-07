@@ -3,7 +3,7 @@ project(GTKRuler3)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 set(CMAKE_CXX_STANDARD 11)
-add_executable(GTKRuler3 gtkruler.c)
+add_executable(GTKRuler3 gtkruler.c main.cpp)
 
 
 FIND_PACKAGE ( PkgConfig REQUIRED )

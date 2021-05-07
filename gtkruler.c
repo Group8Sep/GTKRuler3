@@ -111,7 +111,7 @@ G_DEFINE_TYPE_WITH_CODE (GtkRuler, gtk_ruler, GTK_TYPE_WIDGET,
 /* main method only used for buildabilty checking
  * and is temporary until a proper build pipeline is set up 
  */
-int main() {}
+//int main() {}
 
 
 static void
