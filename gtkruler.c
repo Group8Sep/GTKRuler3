@@ -27,8 +27,6 @@
 /*
  * Ported to GTK3 + Cairo by Jelle Bootsma for the Scroom large image viewer
  * See SCROOM at https://github.com/kees-jan/scroom
- * files for a list of changes.  These files are distributed with
- * GTK+ at ftp://ftp.gtk.org/pub/gtk/.
  */
 //#include "config.h"
 
@@ -108,10 +106,6 @@ static const GtkRulerMetric ruler_metrics[] =
 G_DEFINE_TYPE_WITH_CODE (GtkRuler, gtk_ruler, GTK_TYPE_WIDGET,
                          G_IMPLEMENT_INTERFACE (GTK_TYPE_ORIENTABLE,
                                                 NULL))
-/* main method only used for buildabilty checking
- * and is temporary until a proper build pipeline is set up 
- */
-//int main() {}
 
 
 static void

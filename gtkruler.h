@@ -24,6 +24,11 @@
  * GTK+ at ftp://ftp.gtk.org/pub/gtk/. 
  */
 
+/*
+ * Ported to GTK3 + Cairo by Jelle Bootsma for the Scroom large image viewer
+ * See SCROOM at https://github.com/kees-jan/scroom
+ */
+
 #ifndef __GTK_RULER_H__
 #define __GTK_RULER_H__
 
