@@ -3,8 +3,13 @@ project(GTKRuler3)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 set(CMAKE_CXX_STANDARD 11)
-
-add_library(GTKRuler3 gtkruler.c)
+add_library(GTKRuler3
+            gtkhruler.h
+            gtkhruler.c
+            gtkvruler.h
+            gtkvruler.c
+            gtkruler.h
+            gtkruler.c)
 
 
 FIND_PACKAGE ( PkgConfig REQUIRED )
