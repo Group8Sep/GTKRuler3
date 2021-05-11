@@ -27,6 +27,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include <gtk/gtk.h>
 #include "gtkhruler.h"
 
 
@@ -154,7 +155,7 @@ gtk_hruler_draw_ticks (GtkRuler *ruler) {
     g_return_if_fail (ruler != NULL);
     g_return_if_fail (GTK_IS_HRULER(ruler));
 
-    if (!GTK_WIDGET_DRAWABLE(ruler))
+    if (!gtk_widget_is_drawable(ruler))
         return;
 
     widget = GTK_WIDGET (ruler);
@@ -270,7 +271,7 @@ gtk_hruler_draw_pos (GtkRuler *ruler)
   g_return_if_fail (ruler != NULL);
   g_return_if_fail (GTK_IS_HRULER (ruler));
 
-  if (GTK_WIDGET_DRAWABLE (ruler))
+  if (gtk_widget_is_drawable(ruler))
     {
       widget = GTK_WIDGET (ruler);
 
@@ -288,12 +289,13 @@ gtk_hruler_draw_pos (GtkRuler *ruler)
 	{
 	  /*  If a backing store exists, restore the ruler  */
 	  if (ruler->backing_store && ruler->non_gr_exp_gc)
-	    gdk_draw_pixmap (ruler->widget.window,
-			     ruler->non_gr_exp_gc,
-			     ruler->backing_store,
-			     ruler->xsrc, ruler->ysrc,
-			     ruler->xsrc, ruler->ysrc,
-			     bs_width, bs_height);
+//	    gdk_draw_pixmap (ruler->widget.window,
+//			     ruler->non_gr_exp_gc,
+//			     ruler->backing_store,
+//			     ruler->xsrc, ruler->ysrc,
+//			     ruler->xsrc, ruler->ysrc,
+//			     bs_width, bs_height);
+        cairo_surface_create_for_rectangle(gtk_widget_get_window(widget), ruler->xsrc, ruler->ysrc, bs_width, bs_height);
 
 	  increment = (gfloat) width / (ruler->upper - ruler->lower);
 

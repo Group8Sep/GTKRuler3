@@ -156,7 +156,7 @@ gtk_vruler_draw_ticks (GtkRuler *ruler)
   g_return_if_fail (ruler != NULL);
   g_return_if_fail (GTK_IS_VRULER (ruler));
 
-  if (!GTK_WIDGET_DRAWABLE (ruler)) 
+  if (!gtk_widget_is_drawable (ruler))
     return;
 
   widget = GTK_WIDGET (ruler);
@@ -281,7 +281,7 @@ gtk_vruler_draw_pos (GtkRuler *ruler)
   g_return_if_fail (ruler != NULL);
   g_return_if_fail (GTK_IS_VRULER (ruler));
 
-  if (GTK_WIDGET_DRAWABLE (ruler))
+  if (gtk_widget_is_drawable (ruler))
     {
       widget = GTK_WIDGET (ruler);
 
