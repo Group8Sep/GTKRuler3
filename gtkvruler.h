@@ -37,9 +37,9 @@ extern "C" {
 #endif /* __cplusplus */
 
 
-#define GTK_VRULER(obj)          GTK_CHECK_CAST (obj, gtk_vruler_get_type (), GtkVRuler)
-#define GTK_VRULER_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, gtk_vruler_get_type (), GtkVRulerClass)
-#define GTK_IS_VRULER(obj)       GTK_CHECK_TYPE (obj, gtk_vruler_get_type ())
+#define GTK_VRULER(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_vruler_get_type (), GtkVRuler)
+#define GTK_VRULER_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, gtk_vruler_get_type (), GtkVRulerClass)
+#define GTK_IS_VRULER(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_vruler_get_type ())
 
 
 typedef struct _GtkVRuler       GtkVRuler;
