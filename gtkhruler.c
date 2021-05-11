@@ -260,6 +260,7 @@ gtk_hruler_draw_pos (GtkRuler *ruler)
 {
   GtkWidget *widget;
   cairo_t *gc;
+  cairo_surface_t *sf;
   int i;
   gint x, y;
   gint width, height;
@@ -284,7 +285,7 @@ gtk_hruler_draw_pos (GtkRuler *ruler)
       bs_width = height / 2;
       bs_width |= 1;  /* make sure it's odd */
       bs_height = bs_width / 2 + 1;
-
+      sf = gdk_window_create_similar_surface(gtk_widget_get_window(widget), CAIRO_CONTENT_COLOR, bs_width, bs_height);
       if ((bs_width > 0) && (bs_height > 0))
 	{
 	  /*  If a backing store exists, restore the ruler  */
@@ -295,7 +296,7 @@ gtk_hruler_draw_pos (GtkRuler *ruler)
 //			     ruler->xsrc, ruler->ysrc,
 //			     ruler->xsrc, ruler->ysrc,
 //			     bs_width, bs_height);
-        cairo_surface_create_for_rectangle(gtk_widget_get_window(widget), ruler->xsrc, ruler->ysrc, bs_width, bs_height);
+        cairo_surface_create_for_rectangle(sf, ruler->xsrc, ruler->ysrc, bs_width, bs_height);
 
 	  increment = (gfloat) width / (ruler->upper - ruler->lower);
 
