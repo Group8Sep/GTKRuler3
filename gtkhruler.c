@@ -29,6 +29,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include "gtkhruler.h"
+#include "gtkruler.h"
 
 
 #define RULER_HEIGHT          14
@@ -47,6 +48,9 @@ static void gtk_hruler_draw_ticks    (GtkRuler       *ruler);
 static void gtk_hruler_draw_pos      (GtkRuler       *ruler);
 
 
+G_DEFINE_TYPE(GtkHRuler, gtk_hruler, GTK_TYPE_RULER);
+
+/*
 GType
 gtk_hruler_get_type (void)
 {
@@ -71,20 +75,21 @@ gtk_hruler_get_type (void)
 
   return hruler_type;
 }
-
+*/
 static void
 gtk_hruler_class_init (GtkHRulerClass *klass)
 {
-  GtkWidgetClass *widget_class;
-  GtkRulerClass *ruler_class;
+    GObjectClass *object_class = G_OBJECT_CLASS(klass);
+    GtkWidgetClass *widget_class = GTK_WIDGET_CLASS(klass);
+    GtkRulerClass *ruler_class = GTK_RULER_CLASS(klass);
 
-  widget_class = (GtkWidgetClass*) klass;
-  ruler_class = (GtkRulerClass*) klass;
 
   widget_class->motion_notify_event = gtk_hruler_motion_notify;
 
   ruler_class->draw_ticks = gtk_hruler_draw_ticks;
   ruler_class->draw_pos = gtk_hruler_draw_pos;
+
+    //g_type_class_add_private(object_class, sizeof (GtkHRuler));
 }
 
 static void
@@ -102,7 +107,7 @@ gtk_hruler_init (GtkHRuler *hruler)
 GtkWidget*
 gtk_hruler_new (void)
 {
-  return GTK_WIDGET (gtk_hruler_get_type ());
+  return g_object_new(GTK_TYPE_HRULER, NULL);
 }
 
 static gint
@@ -276,7 +281,7 @@ gtk_hruler_draw_pos (GtkRuler *ruler)
     {
       widget = GTK_WIDGET (ruler);
 
-      //gc = widget->style->fg_gc[GTK_STATE_NORMAL];
+      gc = gdk_cairo_create(gtk_widget_get_window(widget));
       xthickness = gtk_widget_get_style(widget)->xthickness;
       ythickness = gtk_widget_get_style(widget)->ythickness;
       width = gtk_widget_get_allocated_width(widget) - ythickness * 2;

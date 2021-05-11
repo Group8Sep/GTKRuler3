@@ -435,18 +435,17 @@ gtk_ruler_realize (GtkWidget *widget)
 {
   GtkRuler *ruler;
   GdkWindowAttr attributes;
+  GtkAllocation *allocation;
   gint attributes_mask;
 
   ruler = GTK_RULER (widget);
-
-  gtk_widget_set_realized (widget, TRUE);
-  struct _cairo_rectangle_int* allocation;
   attributes.window_type = GDK_WINDOW_CHILD;
-  gtk_widget_get_allocation(widget, allocation);
-  attributes.x =  allocation->x;
-  attributes.y = allocation->y;
-  attributes.width = allocation->width;
-  attributes.height = allocation->height;
+  gtk_widget_set_realized (widget, TRUE);
+  attributes.height =  gtk_widget_get_allocated_height(widget);
+  attributes.width =  gtk_widget_get_allocated_width(widget);
+  //gtk_widget_get_allocation(widget, allocation);
+  attributes.x = 0; // TESTING FOR NOW, DONT KNOW HOW TO GET THE ACTUAL LOCATION
+  attributes.y = 0;
   attributes.wclass = GDK_INPUT_OUTPUT;
   attributes.visual = gtk_widget_get_visual (widget);
 
@@ -589,11 +588,16 @@ gtk_ruler_make_pixmap (GtkRuler *ruler)
     }
   ruler->xsrc = 0;
   ruler->ysrc = 0;
-  ruler->backing_store = cairo_surface_create_for_rectangle(gtk_widget_get_window(widget),
-                                                            ruler->xsrc,
-                                                            ruler->ysrc,
-                                                            gtk_widget_get_allocated_width(widget),
-                                                            gtk_widget_get_allocated_height(widget));
+  ruler->backing_store = cairo_surface_create_for_rectangle(
+          gdk_window_create_similar_surface(
+                  gtk_widget_get_window(widget),
+                  CAIRO_CONTENT_COLOR,
+                  gtk_widget_get_allocated_width(widget),
+                  gtk_widget_get_allocated_height(widget)),
+          ruler->xsrc,
+          ruler->ysrc,
+          gtk_widget_get_allocated_width(widget),
+          gtk_widget_get_allocated_height(widget));
 
 
 }
@@ -646,7 +650,7 @@ gtk_ruler_real_draw_ticks (GtkRuler *ruler)
       height = gtk_widget_get_allocated_width(widget) - ythickness * 2;
     }
 
-#define DETAILE(private) (private->orientation == GTK_ORIENTATION_HORIZONTAL ? "hruler" : "vruler");
+#define DETAILE(private) ((private)->orientation == GTK_ORIENTATION_HORIZONTAL ? "hruler" : "vruler");
   cr = gdk_cairo_create (ruler->backing_store);
   gtk_paint_box (gtk_widget_get_style(widget),
                  cr,

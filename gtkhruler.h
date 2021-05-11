@@ -36,7 +36,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-
+#define GTK_TYPE_HRULER          gtk_hruler_get_type ()
 #define GTK_HRULER(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, gtk_hruler_get_type (), GtkHRuler)
 #define GTK_HRULER_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, gtk_hruler_get_type (), GtkHRulerClass)
 #define GTK_IS_HRULER(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, gtk_hruler_get_type ())
