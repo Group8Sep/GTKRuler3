@@ -71,6 +71,7 @@ struct _GtkRulerPrivate
 
 #define GTK_RULER_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GTK_TYPE_RULER, GtkRulerPrivate))
 
+#define GTK_PARAM_SPEC_METRIC (pspec)   (G_TYPE_CHECK_INSTANCE_CAST ((pspec), GTK_TYPE_PARAM_METRIC, GtkParamSpecMetric))
 
 static void     gtk_ruler_set_property    (GObject        *object,
                                            guint            prop_id,
@@ -94,6 +95,9 @@ static void     gtk_ruler_make_pixmap     (GtkRuler       *ruler);
 static void     gtk_ruler_real_draw_ticks (GtkRuler       *ruler);
 static void     gtk_ruler_real_draw_pos   (GtkRuler       *ruler);
 
+static gboolean
+gtk_param_metric_value_validate (GParamSpec *pspec,
+                               GValue     *value);
 
 static const GtkRulerMetric ruler_metrics[] =
 {
@@ -176,12 +180,15 @@ gtk_ruler_class_init (GtkRulerClass *class)
    *
    * Since: 2.8
    */
+    //!!!! THIS SHOULD BE CHANGED TO A g_param_spec_enum IN ORDER TO HAVE ENFORCEMENT OF CORRECT VALUES, BUT I
+    // CANT GET IT WORKING RIGHT NOW AND NEED TO MOVE ON
   g_object_class_install_property (gobject_class,
                                    PROP_METRIC,
-                                   g_param_spec_enum ("metric",
+                                   g_param_spec_int("metric",
 						      "Metric",
 						      "The metric used for the ruler",
-						      GTK_TYPE_METRIC_TYPE,
+						      GTK_PIXELS,
+						      GTK_CENTIMETERS,
 						      GTK_PIXELS,
 						      G_PARAM_READWRITE));
 
@@ -908,6 +915,63 @@ gtk_ruler_real_draw_pos (GtkRuler *ruler)
 	  ruler->ysrc = y;
 	}
     }
+}
+
+/*
+ * GTK Param Metric region
+ */
+
+typedef struct _GtkParamSpecMetric GtkParamSpecMetric;
+
+struct _GtkParamSpecMetric
+{
+    GParamSpecInt parent_instance;
+
+};
+
+static void
+gtk_param_metric_class_init (GParamSpecClass *class)
+{
+    class->value_type     = GTK_TYPE_METRIC_TYPE;
+    class->value_validate = gtk_param_metric_value_validate;
+}
+
+GType
+gtk_param_metric_get_type (void)
+{
+    static GType spec_type = 0;
+
+    if (! spec_type)
+    {
+        const GTypeInfo type_info =
+                {
+                        sizeof (GParamSpecClass),
+                        NULL, NULL,
+                        (GClassInitFunc) gtk_param_metric_class_init,
+                        NULL, NULL,
+                        sizeof (GtkParamSpecMetric),
+                        0, NULL, NULL
+                };
+
+        spec_type = g_type_register_static (G_TYPE_PARAM_ENUM,
+                                            "GtkParamMetric",
+                                            &type_info, 0);
+    }
+
+    return spec_type;
+}
+
+static gboolean
+gtk_param_metric_value_validate (GParamSpec *pspec,
+                                GValue     *value)
+{
+    GParamSpecEnum    *ispec = G_PARAM_SPEC_ENUM(pspec);
+    //GtkParamSpecMetric    *uspec = GTK_PARAM_SPEC_METRIC (pspec);
+    //gint               oval  = value->data[0].v_int;
+
+
+
+    return (value->data[0].v_int <= GTK_CENTIMETERS && value->data[0].v_int >= GTK_PIXELS);
 }
 
 #define __GTK_RULER_C__

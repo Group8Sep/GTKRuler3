@@ -51,6 +51,10 @@ extern "C" {
 #define GTK_RULER_GET_CLASS(obj)    (G_TYPE_INSTANCE_GET_CLASS ((obj), GTK_TYPE_RULER, GtkRulerClass))
 
 
+#define GTK_TYPE_PARAM_METRIC       (gtk_param_metric_get_type ())
+
+
+
 typedef struct _GtkRuler        GtkRuler;
 typedef struct _GtkRulerClass   GtkRulerClass;
 typedef struct _GtkRulerMetric  GtkRulerMetric;
@@ -117,6 +121,7 @@ void    gtk_ruler_set_range  (GtkRuler       *ruler,
 void    gtk_ruler_draw_ticks (GtkRuler       *ruler);
 void    gtk_ruler_draw_pos   (GtkRuler       *ruler);
 
+GType   gtk_param_metric_get_type (void);
 
 #ifdef __cplusplus
 }
