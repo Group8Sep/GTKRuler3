@@ -260,6 +260,28 @@ gtk_hruler_draw_ticks (GtkRuler *ruler) {
     }
 }
 
+void cairo_gdk_draw_pixbuf(cairo_t *cr, cairo_surface_t *source,
+                           int src_x, int src_y,
+                           int dest_x, int dest_y,
+                           int width, int height)
+{
+    cairo_save(cr);
+
+    /* Move (0, 0) to the destination position */
+    cairo_translate(cr, dest_x, dest_y);
+
+    /* Set up the source surface in such a way that (src_x, src_y) maps to
+     * (0, 0) in user coordinates. */
+    cairo_set_source_surface(cr, source, -src_x, -src_y);
+
+    /* Do the drawing */
+    cairo_rectangle(cr, 0, 0, width, height);
+    cairo_fill(cr);
+
+    /* Undo all of our modifications to the drawing state */
+    cairo_restore(cr);
+}
+
 static void
 gtk_hruler_draw_pos (GtkRuler *ruler)
 {
@@ -301,7 +323,8 @@ gtk_hruler_draw_pos (GtkRuler *ruler)
 //			     ruler->xsrc, ruler->ysrc,
 //			     ruler->xsrc, ruler->ysrc,
 //			     bs_width, bs_height);
-        cairo_surface_create_for_rectangle(sf, ruler->xsrc, ruler->ysrc, bs_width, bs_height);
+//        cairo_surface_create_for_rectangle(sf, ruler->xsrc, ruler->ysrc, bs_width, bs_height);
+          cairo_gdk_draw_pixbuf(gc, sf, ruler->xsrc, ruler->ysrc, ruler->xsrc, ruler->ysrc, bs_width, bs_height);
 
 	  increment = (gfloat) width / (ruler->upper - ruler->lower);
 
