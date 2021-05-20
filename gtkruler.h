@@ -25,7 +25,7 @@
  */
 
 /*
- * Ported to GTK3 + Cairo by Jelle Bootsma for the Scroom large image viewer
+ * Ported to GTK3 + Cairo by Group 8 of the SEP project TU/e Q4 2020-2021 for the Scroom large image viewer
  * See SCROOM at https://github.com/kees-jan/scroom
  */
 
